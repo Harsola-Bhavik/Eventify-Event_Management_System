@@ -1,0 +1,28 @@
+import express from "express";
+import { isLoggedIn } from "../middleware/authMiddleware.js";
+import {
+  createReview,
+  getEventReviews,
+  getMyReview,
+  updateReview,
+  deleteReview,
+  getEventRatingSummary,
+} from "../controllers/ReviewController.js";
+import { apiLimiter } from "../middleware/rateLimitMiddleware.js";
+const router = express.Router();
+
+router.use(apiLimiter)
+
+router.post("/create", isLoggedIn, createReview);
+
+router.get("/summary/:eventId", getEventRatingSummary);
+
+router.get("/my/:eventId", isLoggedIn, getMyReview);
+
+router.get("/:eventId", getEventReviews);
+
+router.put("/:eventId", isLoggedIn, updateReview);
+
+router.delete("/:eventId", isLoggedIn, deleteReview);
+
+export default router;
