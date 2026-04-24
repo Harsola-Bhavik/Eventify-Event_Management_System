@@ -27,7 +27,7 @@ import AdminHome from "./components/admin components/Home";
 import AllUsers from "./components/admin components/AllUsers";
 import PendingEvents from "./components/admin components/PendingEvents";
 import ApprovedEvents from "./components/admin components/ApprovedEvents";
-import RejectedEvents from "./components/admin components/rejectedEvents";
+import RejectedEvents from "./components/admin components/RejectedEvents";
 import OrganizerApproval from "./components/admin components/OrganizerApproval";
 import ApprovedOrganizers from "./components/admin components/ApprovedOrganizers";
 import ContactMessages from "./components/admin components/ContactMessages";
