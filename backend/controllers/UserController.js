@@ -203,6 +203,7 @@ const login = async (req, res) => {
         message: "Admin Login successful",
         role: user.role,
         isAdmin: true,
+        token,
       });
     }
 
@@ -309,7 +310,8 @@ const verifyOtp = async (req, res) => {
 
 const verify = async (req, res) => {
   try {
-    const token = req.cookies.token;
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.startsWith("Bearer ") ? authHeader.split(" ")[1] : req.cookies.token;
 
     if (!token) {
       return res.status(400).json({
@@ -408,6 +410,7 @@ const verifyLoginOtp = async (req, res) => {
       success: true,
       message: "Login successful",
       role: user.role,
+      token,
     });
   } catch (error) {
     return res.status(500).json({

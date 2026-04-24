@@ -70,6 +70,7 @@ const Login = () => {
 
       if (res.data.success) {
         if (res.data.isAdmin) {
+          localStorage.setItem("token", res.data.token);
           localStorage.setItem("role", res.data.role);
           dispatch(setAuth({ role: res.data.role }));
           localStorage.setItem("hasSession", 1);

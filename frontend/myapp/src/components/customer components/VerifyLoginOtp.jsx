@@ -33,9 +33,9 @@ const VerifyLoginOtp = () => {
             if (res.data.success) {
                 setSuccess("Login successful");
 
-                // const token = res.data.token;
+                const token = res.data.token;
                 const role = res.data.role;
-                // localStorage.setItem("token", token);
+                localStorage.setItem("token", token);
                 localStorage.setItem("role", role);
                 dispatch(setAuth({ role }));
 
