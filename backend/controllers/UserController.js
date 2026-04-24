@@ -193,8 +193,8 @@ const login = async (req, res) => {
 
       res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
@@ -317,7 +317,7 @@ const verify = async (req, res) => {
       });
     }
 
-    const decoded = jwt.verify(token, "secret");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     return res.status(200).json({
       success: true,
       role: decoded.role,
@@ -399,8 +399,8 @@ const verifyLoginOtp = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -438,9 +438,9 @@ const getGoogleLoginPage = async (req, res, next) => {
 
   const cookieConfig = {
     httpOnly: true,
-    secure: false,
+    secure: true,
     maxAge: 10 * 60 * 1000,
-    sameSite: "lax", // keep cookies on Google redirect
+    sameSite: "none",
   };
 
   res.cookie("google_oauth_state", state, cookieConfig);
@@ -604,19 +604,19 @@ const getGoogleLoginCallback = async (req, res, next) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
   res.cookie("auth_session", "1", {
-    httpOnly: false, 
-    secure: false,
-    sameSite: "lax",
+    httpOnly: false,
+    secure: true,
+    sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
-  res.clearCookie("google_oauth_state");
-  res.clearCookie("google_code_verifier");
+  res.clearCookie("google_oauth_state", { secure: true, sameSite: "none" });
+  res.clearCookie("google_code_verifier", { secure: true, sameSite: "none" });
 
   return res.redirect(`${process.env.FRONTEND_URL}`);
 };
@@ -625,8 +625,8 @@ const logout = async (req, res) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
     });
     console.log(req.cookies);
     return res.status(200).json({
